@@ -22,7 +22,7 @@ int main()
 		}else {
 			y = -(x - 4) / 2;
 		}
-		cout << setw(6) << "|" << setw(10) << x << "|" << setw(10) << y << "|"<<endl;
+		cout << setw(6) << "|" << setw(10) << fixed<<setprecision(3)<< x << "|" << setw(10) << y << "|"<<endl;
 		cout << setw(5) << "" << "-----------------------" << endl;
 	}
 }
