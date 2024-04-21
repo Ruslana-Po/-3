@@ -7,7 +7,7 @@ using namespace std;
 const int t = 60;
 //поиск x y
 void cofe(float Tk, float Tsr, float r, vector<float>& coffee) {
-	for (int i = 0; i <= t; i++) {
+	for (int i = 0; i < t; i++) {
 		coffee.push_back(Tk);
 		Tk -= r * (Tk - Tsr);
 	}
@@ -65,7 +65,7 @@ int main() {
 	cout << setw(6) << " " << "_______________________________" << endl;
 	cout << setw(6) << "|" << setw(3) <<"" << "время, м" << setw(4) << "|" << setw(1) << "" << "температура, С" << setw(1) << "|" << endl;
 	cout << setw(5) << "" << "--------------------------------" << endl;
-	for (int i = 0; i <= t; i++) {
+	for (int i = 0; i <t; i++) {
 		cout << setw(6) << "|" << setw(6) << "" << fixed << setprecision(3) << i << setw(8) << "|" << setw(5) << "";
 		cout << fixed << setprecision(3) << coffee[i] << setw(5) << "|" << endl;
 		cout << setw(5) << "" << "--------------------------------" << endl;
@@ -75,4 +75,5 @@ int main() {
 	float kofKorrel = korrel(coffee);
 	cout << endl << "Аппроксимирующая прямая: " << "y = " << aproxAB.first<< " * x + " << aproxAB.second << endl;
 	cout << "Коэффицент корреляции: " << kofKorrel << endl;
+	cout << coffee.size();
 }
