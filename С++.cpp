@@ -75,5 +75,4 @@ int main() {
 	float kofKorrel = korrel(coffee);
 	cout << endl << "Аппроксимирующая прямая: " << "y = " << aproxAB.first<< " * x + " << aproxAB.second << endl;
 	cout << "Коэффицент корреляции: " << kofKorrel << endl;
-	cout << coffee.size();
 }
