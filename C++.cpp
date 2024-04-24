@@ -27,6 +27,15 @@ int exponentiation(int number, int m) {
     }
     return a;
 }
+//mod
+int exponentiationTest(int number, int a, int b) {
+    int s = 1;
+    for (int i = 0; i < b; i++) {
+        s *= a;
+        s %= number;
+    }
+    return s;
+}
 
 //Общая часть тестов
 int Test(vector<int> numberProst, int n, vector<int> &number, vector<int> &dividers) {
@@ -170,10 +179,18 @@ int probabilityTest(int number) {
         s += 1;
     }
     //случайное число в отрезке [2, n − 1]
-    int a = rand() % ((number - 1) - 2 + 1) + 2;
-    int x = Stepen(a, d) % number;
-    int y = (x * x) % number;
-    if (y == 1 && x != 1 && x != (number - 1)) {
+    int a = rand() % (number - 4) + 2;
+    int x = exponentiationTest(number,a,d);
+    int y = 0;
+    for (int i = 0; i < s; i++) {
+        y = (x * x) % number;
+        if (y == 1 && x != 1 && x != (number - 1)) {
+            return 0;
+        }
+        x = y;
+    }
+    
+    if (y != 1) {
         return 0;
     }
     return 1;
@@ -239,3 +256,4 @@ int main() {
       }
   }
 }
+
