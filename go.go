@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 )
+
 //решета Эратосфена
 func sieveEratosthenes(numberProst *[]int) {
     //append добавленние новых элементов к массиву
@@ -29,6 +30,16 @@ func exponentiation(number, m int) int {
 	}
 	return a
 }
+
+func exponentiationTest(number, a, b int) int {
+	s := 1
+	for i := 0; i < b; i++ {
+		s *= a
+		s %= number
+	}
+	return s
+}
+
 //Общая часть тестов
 func Test(numberProst []int, n int, number, dividers *[]int) int {
 	m := n - 1
@@ -64,6 +75,7 @@ func Test(numberProst []int, n int, number, dividers *[]int) int {
 	}
 	return 1
 }
+
 // Тест Миллера
 
 func Miller(numberProst []int, n int) int {
@@ -166,7 +178,7 @@ func probabilityTest(number int) int {
 	if number < 2 || number%2 == 0 {
 		return 0
 	}
-	 // представим n − 1 в виде (2^s)·t, t-нечет
+// представим n − 1 в виде (2^s)·t, t-нечет
 	d := number - 1
 	s := 0
 	for d%2 == 0 {
@@ -174,10 +186,17 @@ func probabilityTest(number int) int {
 		s++
 	}
 	 //случайное число в отрезке [2, n − 1]
-	a := rand.Intn((number-1)-2+1) + 2
-	x := Stepen(a, d) % number
-	y := (x * x) % number
-	if y == 1 && x != 1 && x != number-1 {
+	a := rand.Intn(number-4) + 2
+	x := exponentiationTest(number, a, d)
+	y := 0
+	for i := 0; i < s; i++ {
+		y = (x * x) % number
+		if y == 1 && x != 1 && x != number-1 {
+			return 0
+		}
+		x = y
+	}
+	if y != 1 {
 		return 0
 	}
 	return 1
@@ -203,7 +222,7 @@ func main() {
 	k := 0
 	for len(quantity) < 10 {
 	    //Prost[rand.Next(Prost.Count)]
-		check := numberProst[rand.Intn(len(numberProst))]
+		check := rand.Intn(500-2+1) + 2
 		fmt.Println()
 		fmt.Printf("n = %d\n", check)
 		fmt.Println("Miller Test:")
