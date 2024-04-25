@@ -87,7 +87,7 @@ for i := 0; i < len(coffee); i++ {
 //Среднее ариф х
 var averageX float32=Sum/(float32(len(coffee)))
 //Среднее ариф у
-var averageY float32=((1+(float32(len(coffee))))/2)*(float32(len(coffee)))
+var averageY float32=((1+(float32(len(coffee))))/2)
 var Sumx float32= 0
 var Sumy float32= 0
 var Sumxy float32= 0
