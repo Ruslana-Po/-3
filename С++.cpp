@@ -39,7 +39,7 @@ float korrel(vector<float>coffee) {
 	//Среднее ариф х
 	float averageX=Sum/coffee.size();
 	//Среднее ариф у
-	float averageY=((1+coffee.size())/2)*coffee.size();
+	float averageY=((1+coffee.size())/2);
 	float Sumx = 0, Sumy = 0, Sumxy = 0;
 	for (int i = 0; i < coffee.size(); i++) {
 		Sumxy += ((i - averageY) * (coffee[i] - averageX));
