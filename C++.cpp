@@ -72,9 +72,10 @@ int Test(vector<int> numberProst, int n, vector<int> &number, vector<int> &divid
 }
 
 // Тест Миллера
-int Miller(vector<int> numberProst, int n) {
+int Miller(vector<int> numberProst, int m) {
     vector<int> dividers;
     vector<int> number;
+    int n = m + 1;
     int check = Test(numberProst, n, number, dividers);
     if (check == 0)return 0;
     int k = 0;
@@ -95,7 +96,23 @@ int Miller(vector<int> numberProst, int n) {
     return 1;
 }
 // Тест Поклингтона
-int Pocklington(vector<int> numberProst, int n) {
+int Pocklington(vector<int> numberProst, int f, int r) {
+    int c = f;
+    int w = r;
+    int c1 = 0;
+    int w1 = 0;
+    while (c > 0) {
+        c /= 2;
+        c1++;
+    }
+    while (w > 0) {
+        w /= 2;
+        w1++;
+    }
+    if (r >= f && c1-w1!=1) {
+        return 0;
+    }
+    int n = f * r + 1;
     //получаем n
     int k = 0;
     vector<int> dividers;
@@ -103,8 +120,8 @@ int Pocklington(vector<int> numberProst, int n) {
     int check = Test(numberProst, n, number, dividers);
     if (check == 0)return 0;
     //3 пункт
-    for (int j : dividers) {
-        for (int z : number) {
+    for (int z : number) {
+        for (int j : dividers) {
             if ((exponentiation(z, (n - 1) / j) % n) == 1) {
                 k++;
                 break;
@@ -130,6 +147,9 @@ long long Stepen(int a, int b) {
 }
 //ГОСТ Р 34.10 - 94.
 int GOST(int t, int q) {
+    if (q == t / 2) {
+        return 0;
+    }
     bool f = false;
     int p = 0;
     while (true) {
@@ -218,22 +238,35 @@ int main() {
    int examination = 0;
    int k = 0;
   while(quantity.size()<10){
-       //int check = numberProst[rand() % numberProst.size()];
-       int check = rand() % (500 - 2 + 1) + 2;
+      int m = 1, f = 1;
+      for (int i = 0; i < 2; i++) {
+          m*= numberProst[rand() % (numberProst.size()/8)];
+          f*= numberProst[rand() % (numberProst.size()/8)];
+      }
+       int r = 2 * (rand()%64);
        cout << endl;
-       cout << "    n = " << check << endl;
+       cout << "    m = " << m << " "<<f << endl;
        cout << "    Тест Миллера: " << endl;
-       int mil = Miller(numberProst, check);
+       int mil = Miller(numberProst, m);
        cout << "   Тест Поклингтона: " << endl;
-       int pock = Pocklington(numberProst, check);
-       if (mil + pock == 2) {
-           quantity.push_back(check);
+       int pock = Pocklington(numberProst, f,r);
+       if (mil==1) {
+           quantity.push_back(2*m+1);
            reject.push_back(examination);
            examination = 0;
        }else {
            //Сколько чисел не пройдет
-           examination += probabilityTest(check);
+           examination += probabilityTest(2*m+1);
        }
+       if (pock) {
+           quantity.push_back(2 * m + 1);
+           reject.push_back(examination);
+           examination = 0;
+       }else {
+           //Сколько чисел не пройдет
+           examination += probabilityTest(r*f + 1);
+       }
+       
        k++;
   }
   cout << "           Сколько отвергнутых чисел в итоге подтвердили простоту: " << endl;
