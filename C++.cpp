@@ -75,7 +75,7 @@ int Test(vector<int> numberProst, int n, vector<int> &number, vector<int> &divid
 int Miller(vector<int> numberProst, int m) {
     vector<int> dividers;
     vector<int> number;
-    int n = m + 1;
+    int n = 2*m + 1;
     int check = Test(numberProst, n, number, dividers);
     if (check == 0)return 0;
     int k = 0;
