@@ -78,7 +78,8 @@ func Test(numberProst []int, n int, number, dividers *[]int) int {
 
 // Тест Миллера
 
-func Miller(numberProst []int, n int) int {
+func Miller(numberProst []int, m int) int {
+    n:=2*m+1
 	dividers := []int{}
 	number := []int{}
 	check := Test(numberProst, n, &number, &dividers)
@@ -103,7 +104,23 @@ func Miller(numberProst []int, n int) int {
 	return 1
 }
 // Тест Поклингтона
-func Pocklington(numberProst []int, n int) int {
+func Pocklington(numberProst []int, f int, r int) int {
+    c := f
+    w := r
+    c1 := 0
+    w1 := 0
+    for ;c > 0; {
+        c /= 2
+        c1++
+    }
+    for ;w > 0; {
+        w /= 2
+        w1++
+    }
+if r >= f && c1-w1!=1 {
+    return 0
+}
+    n :=r*f+1
 	k := 0
 	dividers := []int{}
 	number := []int{}
@@ -112,8 +129,8 @@ func Pocklington(numberProst []int, n int) int {
 		return 0
 	}
 	  //3 пункт
-	for _, j := range dividers {
-		for _, z := range number {
+	for _, z := range number {
+		 for _, j := range dividers{
 			if exponentiation(z, (n-1)/j)%n == 1 {
 				k++
 				break
@@ -137,6 +154,9 @@ func Stepen(a, b int) int {
 }
 //ГОСТ Р 34.10 - 94.
 func GOST(t, q int){
+    if q != t / 2 {
+    return
+    }
 	f := false
 	p := 0
 	for {
@@ -221,21 +241,34 @@ func main() {
 	examination := 0
 	k := 0
 	for len(quantity) < 10 {
+	   m:=1
+	   f:=1
+	    for i := 0; i < 2; i++ {
+		    m=m*numberProst[rand.Intn(len(numberProst)/8)]
+		    f=f*numberProst[rand.Intn(len(numberProst)/8)]
+	    }
 	    //Prost[rand.Next(Prost.Count)]
-		check := rand.Intn(500-2+1) + 2
+		r := 2*rand.Intn(64)
 		fmt.Println()
-		fmt.Printf("n = %d\n", check)
 		fmt.Println("Miller Test:")
-		mil := Miller(numberProst, check)
+		mil := Miller(numberProst, m)
 		fmt.Println("Pocklington Test:")
-		pock := Pocklington(numberProst, check)
-		if mil+pock == 2 {
-			quantity = append(quantity, check)
+		pock := Pocklington(numberProst, f, r)
+		if mil == 1 {
+			quantity = append(quantity, 2*m+1)
 			reject = append(reject, examination)
 			examination = 0
 		} else {
 		    //Сколько чисел не пройдет
-			examination += probabilityTest(check)
+			examination += probabilityTest(2*m+1)
+		}
+		if pock == 1 {
+			quantity = append(quantity, f*r+1)
+			reject = append(reject, examination)
+			examination = 0
+		} else {
+		    //Сколько чисел не пройдет
+			examination += probabilityTest(f*r+1)
 		}
 		k++
 	}
